@@ -1,52 +1,76 @@
 from kivy.app import App
-from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.anchorlayout import AnchorLayout
-from kivy.uix.label import Label
+from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.config import Config
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+
 
 # Win params
-height = 480
-width = 640
-
+height = 700
+width = 380
 Config.set('graphics', 'resizable', 1)
 Config.set('graphics', 'width', width)
 Config.set('graphics', 'height', height)
 
 
-# Game name Alias
+class StartScreen(Screen):
+    def __init__(self, **kw):
+        super(StartScreen, self).__init__(**kw)
+        float1 = FloatLayout()
+        stng_btn = Button(text='Settings',
+                          font_size=12,
+                          size_hint=(0.175, 0.06),
+                          pos_hint={'center_x': 0.88, 'center_y': 0.92},
+                          on_release=self.stng_press)
+        game_name = Label(text='Alias The Game',
+                          font_size=30,
+                          size_hint=(0.4, 0.4),
+                          pos_hint={'center_x': 0.5, 'center_y': 0.7})
+        start_btn = Button(text='Play',
+                           font_size=18,
+                           size_hint=(0.3, 0.06),
+                           pos_hint={'center_x': 0.7, 'center_y': 0.2})
+        help_btn = Button(text='Help',
+                          font_size=18,
+                          size_hint=(0.3, 0.06),
+                          pos_hint={'center_x': 0.30, 'center_y': 0.2})
+        float1.add_widget(help_btn)
+        float1.add_widget(start_btn)
+        float1.add_widget(game_name)
+        float1.add_widget(stng_btn)
+        self.add_widget(float1)
+
+    def stng_press(self, instance):
+        sm.current = 'settings'
+
+
+class SettingsScreen(Screen):
+    def __init__(self, **kw):
+        super(SettingsScreen, self).__init__(**kw)
+        float1 = FloatLayout()
+        label = Label(text='Settings', pos_hint={'center_x': 0.5, 'center_y': 0.9})
+        float1.add_widget(label)
+        back_btn = Button(text='Back',
+                          font_size=18,
+                          size_hint=(0.2, 0.1),
+                          pos_hint={'center_x': 0.5, 'center_y': 0.2},
+                          on_release=self.go_back)
+        float1.add_widget(back_btn)
+        self.add_widget(float1)
+
+    def go_back(self, instance):
+        sm.current = 'start screen'
+
+
+sm = ScreenManager(transition=FadeTransition())
+sm.add_widget(StartScreen(name='start screen'))
+sm.add_widget(SettingsScreen(name='settings'))
+
+
 class AliasApp(App):
-    def build(self):    # standard class
-        anchlayout = AnchorLayout(anchor_x='center',
-                                  anchor_y='bottom',
-                                  size_hint=(1, 0.2),
-                                  padding=[40, 0, 50, 50],)
-
-        box = BoxLayout(spacing=10)
-        startbtn = Button(text='Начать игру!', on_press=self.categories())
-        helpbtn = Button(text='Правила Игры',)   # on_press=self.help_menu()
-        box.add_widget(startbtn, helpbtn)
-        anchlayout.add_widget(box)
-
-        return anchlayout   # return 1-st  layout
-
-    def categories(self):
-        anchlayout = AnchorLayout(anchor_x='center',
-                                  anchor_y='top',
-                                  size_hint=(1, 0.1), )
-        box = BoxLayout(orientation='vertical', spacing=5)
-        anchlayout.add_widget(box)
-        first_cat = Button(text='1 cat',)    # on press=self.first_cat()
-        second_cat = Button(text='2 cat', )  # on press=self.second_cat()
-        third_cat = Button(text='3 cat', )  # on press=self.third_cat()
-        four_cat = Button(text='4 cat', )  # on press=self.four_cat()
-        box.add_widget(first_cat)
-        box.add_widget(second_cat)
-        box.add_widget(third_cat)
-        box.add_widget(four_cat)
-
-        return anchlayout
-
+    def build(self):
+        return sm
 
 
 if __name__ == "__main__":
