@@ -30,11 +30,13 @@ class StartScreen(Screen):
         start_btn = Button(text='Play',
                            font_size=18,
                            size_hint=(0.3, 0.06),
-                           pos_hint={'center_x': 0.7, 'center_y': 0.2})
+                           pos_hint={'center_x': 0.7, 'center_y': 0.2},
+                           on_release=self.play_press)
         help_btn = Button(text='Help',
                           font_size=18,
                           size_hint=(0.3, 0.06),
-                          pos_hint={'center_x': 0.30, 'center_y': 0.2})
+                          pos_hint={'center_x': 0.30, 'center_y': 0.2},
+                          on_release=self.help_press)
         float1.add_widget(help_btn)
         float1.add_widget(start_btn)
         float1.add_widget(game_name)
@@ -43,6 +45,12 @@ class StartScreen(Screen):
 
     def stng_press(self, instance):
         sm.current = 'settings'
+
+    def play_press(self, instance):
+        sm.current = 'teams'
+
+    def help_press(self, instance):
+        sm.current = 'help_screen'
 
 
 class SettingsScreen(Screen):
@@ -63,9 +71,44 @@ class SettingsScreen(Screen):
         sm.current = 'start screen'
 
 
+class HelpScreen(Screen):
+    def __init__(self, **kw):
+        super(HelpScreen, self).__init__(**kw)
+        pass
+
+
+class TeamsScreen(Screen):
+    def __init__(self, **kw):
+        super(TeamsScreen, self).__init__(**kw)
+        pass
+
+
+class WordsScreen(Screen):
+    def __init__(self, **kw):
+        super(WordsScreen, self).__init__(**kw)
+        pass
+
+
+class GameScreen(Screen):
+    def __init__(self, **kw):
+        super(GameScreen, self).__init__(**kw)
+        pass
+
+
+class ResultScreen(Screen):
+    def __init__(self, **kw):
+        super(ResultScreen, self).__init__(**kw)
+        pass
+
+
 sm = ScreenManager(transition=FadeTransition())
 sm.add_widget(StartScreen(name='start screen'))
 sm.add_widget(SettingsScreen(name='settings'))
+sm.add_widget(TeamsScreen(name='teams'))
+sm.add_widget(WordsScreen(name='words'))
+sm.add_widget(ResultScreen(name='results'))
+sm.add_widget(GameScreen(name='game_screen'))
+sm.add_widget(HelpScreen(name='help_screen'))
 
 
 class AliasApp(App):
