@@ -4,6 +4,7 @@ from kivy.config import Config
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.slider import Slider
 
 
 # Win params
@@ -57,14 +58,28 @@ class SettingsScreen(Screen):
     def __init__(self, **kw):
         super(SettingsScreen, self).__init__(**kw)
         float1 = FloatLayout()
-        label = Label(text='Settings', pos_hint={'center_x': 0.5, 'center_y': 0.9})
+        label = Label(text='Settings',
+                      pos_hint={'center_x': 0.5,
+                                'center_y': 0.9},
+                      font_size=32)
         float1.add_widget(label)
+
         back_btn = Button(text='Back',
                           font_size=18,
                           size_hint=(0.2, 0.1),
                           pos_hint={'center_x': 0.5, 'center_y': 0.2},
                           on_release=self.go_back)
         float1.add_widget(back_btn)
+        slider_sound = Slider(min=0,
+                              max=100,
+                              value_track=True,
+                              pos_hint={'center_x': 0.5, 'center_y': 0.7},)
+        slider_audio = Slider(min=0,
+                              max=100,
+                              value_track=True,
+                              pos_hint={'center_x': 0.5, 'center_y': 0.5},)
+        float1.add_widget(slider_audio)
+        float1.add_widget(slider_sound)
         self.add_widget(float1)
 
     def go_back(self, instance):
