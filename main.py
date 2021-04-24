@@ -1,15 +1,16 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
+from win32api import GetSystemMetrics
 from kivy.config import Config
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
-from kivy.uix.slider import Slider
+from kivy.uix.switch import Switch
 
 
 # Win params
-height = 700
-width = 380
+height = GetSystemMetrics(0)
+width = GetSystemMetrics(1)
 Config.set('graphics', 'resizable', 1)
 Config.set('graphics', 'width', width)
 Config.set('graphics', 'height', height)
@@ -20,7 +21,7 @@ class StartScreen(Screen):
         super(StartScreen, self).__init__(**kw)
         float1 = FloatLayout()
         stng_btn = Button(text='Settings',
-                          font_size=12,
+                          font_size=16,
                           size_hint=(0.175, 0.06),
                           pos_hint={'center_x': 0.88, 'center_y': 0.92},
                           on_release=self.stng_press)
@@ -29,12 +30,12 @@ class StartScreen(Screen):
                           size_hint=(0.4, 0.4),
                           pos_hint={'center_x': 0.5, 'center_y': 0.7})
         start_btn = Button(text='Play',
-                           font_size=18,
+                           font_size=20,
                            size_hint=(0.3, 0.06),
                            pos_hint={'center_x': 0.7, 'center_y': 0.2},
                            on_release=self.play_press)
         help_btn = Button(text='Help',
-                          font_size=18,
+                          font_size=20,
                           size_hint=(0.3, 0.06),
                           pos_hint={'center_x': 0.30, 'center_y': 0.2},
                           on_release=self.help_press)
@@ -61,25 +62,36 @@ class SettingsScreen(Screen):
         label = Label(text='Settings',
                       pos_hint={'center_x': 0.5,
                                 'center_y': 0.9},
-                      font_size=32)
+                      font_size=width/6)
         float1.add_widget(label)
 
         back_btn = Button(text='Back',
-                          font_size=18,
+                          font_size=20,
                           size_hint=(0.2, 0.1),
                           pos_hint={'center_x': 0.5, 'center_y': 0.2},
                           on_release=self.go_back)
         float1.add_widget(back_btn)
-        slider_sound = Slider(min=0,
-                              max=100,
-                              value_track=True,
-                              pos_hint={'center_x': 0.5, 'center_y': 0.7},)
-        slider_audio = Slider(min=0,
-                              max=100,
-                              value_track=True,
-                              pos_hint={'center_x': 0.5, 'center_y': 0.5},)
-        float1.add_widget(slider_audio)
+        slider_sound = Switch(active=False,
+                              active_norm_pos=0,
+                              pos_hint={'center_x': 0.7, 'center_y': 0.5},
+                              size_hint_x=0.55,
+                              size_hint_y=0.02)
+        music_label = Label(text='Music:',
+                            pos_hint={'center_x': 0.3, 'center_y': 0.5},
+                            font_size=32)
+        slider_audio = Switch(active=False,
+                              active_norm_pos=0,
+                              pos_hint={'center_x': 0.7, 'center_y': 0.7},
+                              size_hint_x=0.55,
+                              size_hint_y=0.02)
+        sound_label = Label(text='Sound:',
+                            pos_hint={'center_x': 0.3, 'center_y': 0.7},
+                            font_size=32)
+
+        float1.add_widget(music_label)
+        float1.add_widget(sound_label)
         float1.add_widget(slider_sound)
+        float1.add_widget(slider_audio)
         self.add_widget(float1)
 
     def go_back(self, instance):
@@ -89,12 +101,30 @@ class SettingsScreen(Screen):
 class HelpScreen(Screen):
     def __init__(self, **kw):
         super(HelpScreen, self).__init__(**kw)
+        float1 = FloatLayout()
+        help_btn = Button(text='Back',
+                          font_size=20,
+                          size_hint=(0.3, 0.06),
+                          pos_hint={'center_x': 0.5, 'center_y': 0.2},
+                          on_release=self.go_back)
+        rules = Label(text='НЕ\nЗАБУДЬ\nНАПИСАТЬ\nТУТ\nПРАВИЛА\nИГРЫ!!!', font_size=64)
+        float1.add_widget(rules)
+        float1.add_widget(help_btn)
+        self.add_widget(float1)
+
+    def go_play(self, instance):
         pass
+
+    def go_back(self, instance):
+        sm.current = 'start screen'
 
 
 class TeamsScreen(Screen):
     def __init__(self, **kw):
         super(TeamsScreen, self).__init__(**kw)
+        float1 = FloatLayout()
+
+        self.add_widget(float1)
         pass
 
 
