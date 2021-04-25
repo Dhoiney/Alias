@@ -1,16 +1,16 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
-from win32api import GetSystemMetrics
 from kivy.config import Config
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.switch import Switch
+from kivy.core.window import Window
 
 
 # Win params
-height = GetSystemMetrics(0)
-width = GetSystemMetrics(1)
+height = 700
+width = 380
 Config.set('graphics', 'resizable', 1)
 Config.set('graphics', 'width', width)
 Config.set('graphics', 'height', height)
@@ -21,7 +21,7 @@ class StartScreen(Screen):
         super(StartScreen, self).__init__(**kw)
         float1 = FloatLayout()
         stng_btn = Button(text='Settings',
-                          font_size=16,
+                          font_size=11,
                           size_hint=(0.175, 0.06),
                           pos_hint={'center_x': 0.88, 'center_y': 0.92},
                           on_release=self.stng_press)
@@ -62,11 +62,11 @@ class SettingsScreen(Screen):
         label = Label(text='Settings',
                       pos_hint={'center_x': 0.5,
                                 'center_y': 0.9},
-                      font_size=width/6)
+                      font_size=20)
         float1.add_widget(label)
 
         back_btn = Button(text='Back',
-                          font_size=20,
+                          font_size='20',
                           size_hint=(0.2, 0.1),
                           pos_hint={'center_x': 0.5, 'center_y': 0.2},
                           on_release=self.go_back)
@@ -117,6 +117,15 @@ class HelpScreen(Screen):
 
     def go_back(self, instance):
         sm.current = 'start screen'
+
+
+class TeamsColScreen(Screen):
+    def __init__(self, **kw):
+        super(TeamsColScreen, self).__init__(**kw)
+        float1 = FloatLayout()
+        label = Label(text="Cколько вас?")
+        self.add_widget(float1)
+        pass
 
 
 class TeamsScreen(Screen):
