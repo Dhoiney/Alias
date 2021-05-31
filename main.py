@@ -5,7 +5,8 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.switch import Switch
-from kivy.core.window import Window
+from kivy.uix.spinner import Spinner
+from kivy.uix.textinput import TextInput
 
 
 # Win params
@@ -15,27 +16,29 @@ Config.set('graphics', 'resizable', 1)
 Config.set('graphics', 'width', width)
 Config.set('graphics', 'height', height)
 
+text_size = 20
+
 
 class StartScreen(Screen):
     def __init__(self, **kw):
         super(StartScreen, self).__init__(**kw)
         float1 = FloatLayout()
         stng_btn = Button(text='Settings',
-                          font_size=11,
+                          font_size=text_size,
                           size_hint=(0.175, 0.06),
                           pos_hint={'center_x': 0.88, 'center_y': 0.92},
                           on_release=self.stng_press)
         game_name = Label(text='Alias The Game',
-                          font_size=30,
+                          font_size=40,
                           size_hint=(0.4, 0.4),
                           pos_hint={'center_x': 0.5, 'center_y': 0.7})
         start_btn = Button(text='Play',
-                           font_size=20,
+                           font_size=text_size,
                            size_hint=(0.3, 0.06),
                            pos_hint={'center_x': 0.7, 'center_y': 0.2},
                            on_release=self.play_press)
         help_btn = Button(text='Help',
-                          font_size=20,
+                          font_size=text_size,
                           size_hint=(0.3, 0.06),
                           pos_hint={'center_x': 0.30, 'center_y': 0.2},
                           on_release=self.help_press)
@@ -59,14 +62,15 @@ class SettingsScreen(Screen):
     def __init__(self, **kw):
         super(SettingsScreen, self).__init__(**kw)
         float1 = FloatLayout()
-        label = Label(text='Settings',
+        label = Label(font_size=text_size,
+                      text='Settings',
                       pos_hint={'center_x': 0.5,
-                                'center_y': 0.9},
-                      font_size=20)
+                                'center_y': 0.95},
+                      )
         float1.add_widget(label)
 
         back_btn = Button(text='Back',
-                          font_size='20',
+                          font_size=text_size,
                           size_hint=(0.2, 0.1),
                           pos_hint={'center_x': 0.5, 'center_y': 0.2},
                           on_release=self.go_back)
@@ -87,7 +91,12 @@ class SettingsScreen(Screen):
         sound_label = Label(text='Sound:',
                             pos_hint={'center_x': 0.3, 'center_y': 0.7},
                             font_size=32)
+        font_size_spin = Spinner(text='Font Size',
+                                 values=('Small', 'Medium', 'Big'),
+                                 size_hint=(0.1, 0.1),
+                                 pos_hint={'center_x': 0.5, 'center_y': 0.35},)
 
+        float1.add_widget(font_size_spin)
         float1.add_widget(music_label)
         float1.add_widget(sound_label)
         float1.add_widget(slider_sound)
@@ -103,7 +112,7 @@ class HelpScreen(Screen):
         super(HelpScreen, self).__init__(**kw)
         float1 = FloatLayout()
         help_btn = Button(text='Back',
-                          font_size=20,
+                          font_size=text_size,
                           size_hint=(0.3, 0.06),
                           pos_hint={'center_x': 0.5, 'center_y': 0.2},
                           on_release=self.go_back)
@@ -112,29 +121,54 @@ class HelpScreen(Screen):
         float1.add_widget(help_btn)
         self.add_widget(float1)
 
-    def go_play(self, instance):
-        pass
-
     def go_back(self, instance):
         sm.current = 'start screen'
-
-
-class TeamsColScreen(Screen):
-    def __init__(self, **kw):
-        super(TeamsColScreen, self).__init__(**kw)
-        float1 = FloatLayout()
-        label = Label(text="Cколько вас?")
-        self.add_widget(float1)
-        pass
 
 
 class TeamsScreen(Screen):
     def __init__(self, **kw):
         super(TeamsScreen, self).__init__(**kw)
         float1 = FloatLayout()
-
+        label = Label(text='Teams',
+                      pos_hint={'center_x': 0.5,
+                                'center_y': 0.95},
+                      font_size=text_size)
+        t1 = Label(text='Team 1:',
+                   pos_hint={'center_x': 0.15,
+                             'center_y': 0.8},
+                   font_size=text_size)
+        team1 = TextInput(text='text',
+                          size_hint=(0.7, 0.06),
+                          pos_hint={'center_x': 0.6,
+                                    'center_y': 0.8},
+                          multiline=False,
+                          font_size=text_size)
+        t2 = Label(text='Team 2:',
+                   pos_hint={'center_x': 0.15,
+                             'center_y': 0.7},
+                   font_size=text_size)
+        team2 = TextInput(text='text',
+                          size_hint=(0.7, 0.06),
+                          pos_hint={'center_x': 0.6,
+                                    'center_y': 0.7},
+                          multiline=False,
+                          font_size=text_size)
+        add_team = Button(text='+',
+                          font_size=40,
+                          size_hint=(0.9, 0.05),
+                          pos_hint={'center_x': 0.5,
+                                    'center_y': 0.6},
+                          on_releace=self.create_team)
+        float1.add_widget(add_team)
+        float1.add_widget(t1)
+        float1.add_widget(t2)
+        float1.add_widget(team1)
+        float1.add_widget(team2)
+        float1.add_widget(label)
         self.add_widget(float1)
-        pass
+
+    def create_team(self, instance):
+        print('TbIK')
 
 
 class WordsScreen(Screen):
